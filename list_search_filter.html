@@ -15,7 +15,6 @@
     <script type="text/jsx">
         // import react hooks
         const { useState } = React;
-        const [listItems, setListItems] = useState([]);
 
         // fetch data from API
         function fetchWikiData() {
@@ -46,14 +45,44 @@
             );
         }
 
-        let data = fetchWikiData();
-        const buildList = ["1","2","3","4","5","6","7"].map((item) => (
-            <ListItem key={ item } item={ item }/>
-        ));
+        const Search = props => {
+            const [searchField, setSearchField] = useState('');
+            const handleInputChange = event => {
+                setSearchField(event.target.value);
+            }
 
-        const ListApp = props => {
+            const [searchTerm, setSearchTerm] = useState('');
+            const handleSearchSubmit = event => {
+                event.preventDefault();
+                setSearchTerm(searchField);
+                setSearchField('');
+            }
+
             return(
                 <div>
+                    <form onSubmit={ handleSearchSubmit }>
+                        <input
+                            type="text"
+                            onChange={ handleInputChange }
+                            value={ searchField }
+                        />
+                        <input type="submit" />
+                    </form>
+                    <h3>{ searchTerm ? <span>Results for: { searchTerm }</span> : <span>All results</span> }</h3>
+                </div>
+            )
+        }
+
+        const ListApp = props => {
+            const [listItems, setListItems] = useState(["word-x","word-y","word-z"]);
+
+            const buildList = listItems.map((item) => (
+                <ListItem key={ item } item={ item }/>
+            ));
+
+            return(
+                <div>
+                    <Search />
                     <ul>
                         { buildList }
                     </ul>
