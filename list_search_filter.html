@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tiny Apps - List Search Filter</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/jsx">
+        // import react hooks
+        const { useState } = React;
+        const [listItems, setListItems] = useState([]);
+
+        // fetch data from API
+        function fetchWikiData() {
+            let url = "https://en.wikipedia.org/w/api.php";
+            let params = {
+                action: "query",
+                format: "json",
+                list: "allcategories",
+                acfrom: "science"
+            };
+            url = url + "?origin=*";
+            Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+            fetch(url)
+                .then(response => { return response.json(); })
+                .then(response => {
+                    let categories = response.query.allcategories;
+                    for (let category in categories) {
+                        console.log(categories[category]["*"]);
+                    }
+                })
+                .catch(error => { console.log(error); });
+        }
+
+        const ListItem = props => {
+            return(
+                <li>{ props.item }</li>
+            );
+        }
+
+        let data = fetchWikiData();
+        const buildList = ["1","2","3","4","5","6","7"].map((item) => (
+            <ListItem key={ item } item={ item }/>
+        ));
+
+        const ListApp = props => {
+            return(
+                <div>
+                    <ul>
+                        { buildList }
+                    </ul>
+                </div>
+            );
+        }
+
+        ReactDOM.render(
+          <ListApp />,
+          document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
