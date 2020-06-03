@@ -49,16 +49,43 @@
         }
 
         const List = props => {
-            const [listItems, setListItems] = useState(['initial', 'list','in','state']);
+            const [listItems, setListItems] = useState([
+                {
+                    id: "asdfg01",
+                    category: 'Food',
+                    company: 'GrubHub',
+                    type: 'Delivery Service'
+                },
+                {
+                    id: "asdfg02",
+                    category: 'Food',
+                    company: 'DoorDash',
+                    type: 'Delivery Service'
+                },
+                {
+                    id: "asdfg03",
+                    category: 'Delivery',
+                    company: 'USPS',
+                    type: 'National Shipping Service'
+                },
+                {
+                    id: "asdfg04",
+                    category: 'Delivery',
+                    company: 'DHL',
+                    type: 'International Shipping Service'
+                }
+            ]);
 
             const filter = props.filter;
             let filteredListItems = listItems;
             if (filter !== 'all') {
-                filteredListItems = listItems.filter(item => (item.includes(filter)));
+                filteredListItems = listItems.filter(item => (
+                    item.company.toLowerCase().includes(filter.toLowerCase()))
+                );
             }
 
             const buildList = filteredListItems.map(item => (
-                <li key={ item }>{ item }</li>
+                <li key={ item.id }>{ item.company }</li>
             ));
 
             return(
