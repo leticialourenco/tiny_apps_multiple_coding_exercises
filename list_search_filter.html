@@ -13,39 +13,13 @@
 <body>
     <div id="root"></div>
     <script type="text/jsx">
-        // import react hooks
         const { useState } = React;
 
-        // fetch data from API
-        function fetchWikiData() {
-            let url = "https://en.wikipedia.org/w/api.php";
-            let params = {
-                action: "query",
-                format: "json",
-                list: "allcategories",
-                acfrom: "science"
-            };
-            url = url + "?origin=*";
-            Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-
-            fetch(url)
-                .then(response => { return response.json(); })
-                .then(response => {
-                    let categories = response.query.allcategories;
-                    for (let category in categories) {
-                        console.log(categories[category]["*"]);
-                    }
-                })
-                .catch(error => { console.log(error); });
-        }
-
-        const ListItem = props => {
-            return(
-                <li>{ props.item }</li>
-            );
-        }
-
         const Search = props => {
+            const sendTermToList = term => {
+                props.callbackGetSearchTerm(term);
+            }
+
             const [searchField, setSearchField] = useState('');
             const handleInputChange = event => {
                 setSearchField(event.target.value);
@@ -55,6 +29,7 @@
             const handleSearchSubmit = event => {
                 event.preventDefault();
                 setSearchTerm(searchField);
+                sendTermToList(searchField);
                 setSearchField('');
             }
 
@@ -73,19 +48,36 @@
             )
         }
 
-        const ListApp = props => {
-            const [listItems, setListItems] = useState(["word-x","word-y","word-z"]);
+        const List = props => {
+            const [listItems, setListItems] = useState(['initial', 'list','in','state']);
 
-            const buildList = listItems.map((item) => (
-                <ListItem key={ item } item={ item }/>
+            const filter = props.filter;
+            let filteredListItems = listItems;
+            if (filter !== 'all') {
+                filteredListItems = listItems.filter(item => (item.includes(filter)));
+            }
+
+            const buildList = filteredListItems.map(item => (
+                <li key={ item }>{ item }</li>
             ));
 
             return(
+                <ul>
+                    { buildList }
+                </ul>
+            );
+        }
+
+        const ListApp = props => {
+            const [filter, setFilter] = useState('all');
+            const callbackGetSearchTerm = searchTerm => {
+                setFilter(searchTerm);
+            };
+
+            return(
                 <div>
-                    <Search />
-                    <ul>
-                        { buildList }
-                    </ul>
+                    <Search callbackGetSearchTerm={ callbackGetSearchTerm }/>
+                    <List filter={ filter }/>
                 </div>
             );
         }
