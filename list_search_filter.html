@@ -28,6 +28,8 @@
             const [searchField, setSearchField] = useState('');
             const handleInputChange = event => {
                 setSearchField(event.target.value);
+                setSearchTerm(event.target.value);
+                sendTermToList(event.target.value);
             }
 
             const [searchTerm, setSearchTerm] = useState('');
