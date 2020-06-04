@@ -6,6 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tiny Apps - List Search Filter</title>
+    <!-- MATERIAL: ORDER MATTER -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- REACT: ORDER MATTER -->
     <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
@@ -36,12 +41,29 @@
             return(
                 <div>
                     <form onSubmit={ handleSearchSubmit }>
-                        <input
-                            type="text"
-                            onChange={ handleInputChange }
-                            value={ searchField }
-                        />
-                        <input type="submit" />
+                        <label className="mdc-text-field mdc-text-field--outlined">
+                            <input
+                                onChange={ handleInputChange }
+                                value={ searchField }
+
+                                type="text"
+                                className="mdc-text-field__input"
+                                aria-labelledby="my-label-id"
+                            />
+                              <span className="mdc-notched-outline">
+                                <span className="mdc-notched-outline__leading"> </span>
+                                <span className="mdc-notched-outline__notch"> </span>
+                                <span className="mdc-notched-outline__trailing"> </span>
+                              </span>
+                        </label>
+                        <button
+                            type="submit"
+                            className="mdc-button mdc-button--touch"
+                        >
+                            <div className="mdc-button__ripple"> </div>
+                            <span className="mdc-button__label">Search</span>
+                            <div className="mdc-button__touch"> </div>
+                        </button>
                     </form>
                     <h3>{ searchTerm ? <span>Results for: { searchTerm }</span> : <span>All results</span> }</h3>
                 </div>
@@ -54,7 +76,8 @@
                     id: "asdfg01",
                     category: 'Food',
                     company: 'GrubHub',
-                    type: 'Delivery Service'
+                    type: 'Delivery Service',
+                    img: ''
                 },
                 {
                     id: "asdfg02",
@@ -85,11 +108,20 @@
             }
 
             const buildList = filteredListItems.map(item => (
-                <li key={ item.id }>{ item.company }</li>
+                <li key={ item.id } className="mdc-list-item">
+                    <span className="mdc-list-item__text">
+                        <span className="mdc-list-item__primary-text">
+                            { item.company }
+                        </span>
+                        <span className="mdc-list-item__secondary-text">
+                            { item.type }
+                        </span>
+                    </span>
+                </li>
             ));
 
             return(
-                <ul>
+                <ul className="mdc-list mdc-list--two-line">
                     { buildList }
                 </ul>
             );
