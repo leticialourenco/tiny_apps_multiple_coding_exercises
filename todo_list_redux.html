@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tiny Apps - Todo List Redux</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.0.4/redux.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.0/react-redux.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/jsx">
+        const { Component } = React;
+        const { Provider, connect } = ReactRedux;
+
+        // ACTIONS
+        const ADD_TODO = 'ADD_TODO';
+        const addTodoAction = (content, id) => {
+            return {
+                type: ADD_TODO,
+                payload: {
+                    id: id,
+                    content: content
+                }
+            }
+        }
+
+        // REDUCERS
+        const initialState = [{ id: '1', content: 'Call Jenny' }]
+        const todos = (state = initialState, action) => {
+            switch (action.type) {
+                case 'ADD_TODO':
+                    return [
+                        ...state,
+                        {
+                            id: action.payload.id,
+                            content: action.payload.content,
+                            completed: false
+                        }
+                    ]
+                default:
+                    return state;
+            }
+        }
+
+        // COMBINE REDUCERS
+        const todoApp = Redux.combineReducers({ todos });
+
+        // CREATE STORE
+        const store = Redux.createStore(todoApp);
+
+        // COMPONENTS
+		const App = props => {
+		  return(
+		      <div>
+                  <TodoItemConnected />
+                  <TodoListConnected />
+              </div>
+          )
+        };
+
+		class TodoItem extends Component {
+		    constructor(props) {
+                super(props);
+                this.state = {
+                    content: ''
+                }
+                this.addTodo = this.addItem.bind(this);
+            }
+
+            addItem(content, id) {
+		        store.dispatch(addTodoAction(content, id));
+		        this.setState({
+                    content: '',
+                    id: ''
+                });
+            }
+
+            onChange(event) {
+		        this.setState({
+                   content: event.target.value,
+                   id: event.target.value
+                });
+            }
+
+            render() {
+                return(
+                    <div>
+                        <input
+                            onChange={ event => { this.onChange(event) }}
+                            value={ this.state.content }
+                        />
+                        <button
+                            onClick={ () => this.addItem(this.state.content, this.state.id) }
+                        >
+                            Add
+                        </button>
+                    </div>
+                );
+            }
+        }
+        // CONNECT COMPONENT TO REDUX STORE
+        const TodoItemConnected = connect()(TodoItem);
+
+        class TodoList extends Component {
+		    render() {
+                const { todos } = this.props;
+                return(
+                    <ul>
+                        { todos.map( todo => (
+                            <li key={ todo.id }>
+                                { todo.content }
+                            </li>
+                        ))}
+                    </ul>
+                );
+            }
+        }
+        // CONNECT COMPONENT TO REDUX STORE
+        const TodoListConnected = connect(
+            state => ({
+                todos: state.todos
+            })
+        )(TodoList);
+
+		// WRAP APP WITHIN REDUX STORE
+        ReactDOM.render(
+            <Provider store={ store }>
+        	    <App />
+            </Provider>,
+        	document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
