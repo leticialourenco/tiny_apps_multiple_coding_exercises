@@ -31,7 +31,7 @@
         }
 
         // REDUCERS
-        const initialState = [{ id: '1', content: 'Call Jenny' }]
+        const initialState = [{ id: (Math.round( Math.random() * 100000 )), content: 'Call Jenny' }]
         const todos = (state = initialState, action) => {
             switch (action.type) {
                 case 'ADD_TODO':
@@ -84,7 +84,7 @@
             onChange(event) {
 		        this.setState({
                    content: event.target.value,
-                   id: event.target.value
+                   id: (Math.round( Math.random() * 100000 ))
                 });
             }
 
@@ -114,7 +114,7 @@
                     <ul>
                         { todos.map( todo => (
                             <li key={ todo.id }>
-                                { todo.content }
+                                id: { todo.id } -> { todo.content }
                             </li>
                         ))}
                     </ul>
