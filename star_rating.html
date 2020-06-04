@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Star Rating Widget</title>
+    </head>
+
+    <script>
+        window.onload = function () {
+            let url = window.location.href;
+            // if rating has not yet been submitted
+            if (url.split("?").length > 1) {
+                // extract actual rating from url
+                let rating = url.split("?")[1].split("").pop();
+                // get all previous elements and change its color
+                for (let i=1; i<=rating; i++) {
+                    document.getElementById(i + "-star").style = "color: orange";
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .rating-widget-list {
+
+        }
+
+        .rating-widget-list-link::before {
+            content: '⋆';
+            font-size: 5em;
+        }
+
+        .rating-widget-list-link span {
+            display: none;
+        }
+
+        .rating-widget-list-link {
+            padding: 0;
+            margin: 0;
+            color: grey;
+            text-decoration: none;
+        }
+
+        /*.rating-widget-list-link:hover {
+            color: orange;
+            text-decoration: none;
+        }*/
+
+        .rating-widget-list-item {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: inline;
+        }
+    </style>
+
+    <body>
+        <div id="product-rating-01" class="rating-widget">
+            <ul class="rating-widget-list">
+                <li class="rating-widget-list-item">
+                    <a id="1-star" class="rating-widget-list-link" href="star_rating.html?rating=1">
+                        <span>1 Star</span>
+                    </a>
+                </li>
+                <li class="rating-widget-list-item">
+                    <a id="2-star" class="rating-widget-list-link" href="star_rating.html?rating=2">
+                        <span>2 stars</span>
+                    </a>
+                </li>
+                <li class="rating-widget-list-item">
+                    <a id="3-star" class="rating-widget-list-link" href="star_rating.html?rating=3">
+                        <span>3 stars</span>
+                    </a>
+                </li>
+                <li class="rating-widget-list-item">
+                    <a id="4-star" class="rating-widget-list-link" href="star_rating.html?rating=4">
+                        <span>4 stars</span>
+                    </a>
+                </li>
+                <li class="rating-widget-list-item">
+                    <a id="5-star" class="rating-widget-list-link" href="star_rating.html?rating=5">
+                        <span>5 stars</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
