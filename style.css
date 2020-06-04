@@ -1,7 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap');
 
 body {
-    background: white;
+    background: #f7f7f7;
     font-family: 'Roboto', sans-serif;
     font-size: 100%;
+}
+
+h3 {
+    margin-top: 40px;
+    text-transform: uppercase;
+    font-size: 90%;
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin-left: 20px;
+    padding: 0;
+    color: #777;
+}
+
+form {
+    margin-left: 20px;
+}
+
+.mdc-text-field {
+    border-radius: 3px 0 0 3px;
+    border: solid 1px black;
+    height: 50px;
+}
+
+.mdc-button {
+    margin-top: -5px;
+    height: 50px;
+    padding: 0 30px;
+    border: 1px solid black;
+    border-radius: 0 3px 3px 0;
+}
+
+.mdc-button__label {
+    color: black;
+    background: transparent;
+}
+
+.app-container {
+    max-width: 30em;
+    margin: 5em auto;
+    padding: 3em 2em 2em;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    background: white;
 }

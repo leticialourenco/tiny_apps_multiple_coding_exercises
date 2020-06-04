@@ -50,22 +50,15 @@
                                 className="mdc-text-field__input"
                                 aria-labelledby="my-label-id"
                             />
-                              <span className="mdc-notched-outline">
-                                <span className="mdc-notched-outline__leading"> </span>
-                                <span className="mdc-notched-outline__notch"> </span>
-                                <span className="mdc-notched-outline__trailing"> </span>
-                              </span>
                         </label>
                         <button
                             type="submit"
-                            className="mdc-button mdc-button--touch"
+                            className="mdc-button"
                         >
-                            <div className="mdc-button__ripple"> </div>
                             <span className="mdc-button__label">Search</span>
-                            <div className="mdc-button__touch"> </div>
                         </button>
                     </form>
-                    <h3>{ searchTerm ? <span>Results for: { searchTerm }</span> : <span>All results</span> }</h3>
+                    <h3>{ searchTerm ? <span>Results for: { searchTerm }</span> : <span>All companies</span> }</h3>
                 </div>
             )
         }
@@ -134,7 +127,7 @@
             };
 
             return(
-                <div>
+                <div className="app-container">
                     <Search callbackGetSearchTerm={ callbackGetSearchTerm }/>
                     <List filter={ filter }/>
                 </div>
