@@ -40,7 +40,6 @@
                         {
                             id: action.payload.id,
                             content: action.payload.content,
-                            completed: false
                         }
                     ]
                 default:
@@ -55,15 +54,6 @@
         const store = Redux.createStore(todoApp);
 
         // COMPONENTS
-		const App = props => {
-		  return(
-		      <div>
-                  <TodoItemConnected />
-                  <TodoListConnected />
-              </div>
-          )
-        };
-
 		class TodoItem extends Component {
 		    constructor(props) {
                 super(props);
@@ -75,6 +65,8 @@
 
             addItem(content, id) {
 		        store.dispatch(addTodoAction(content, id));
+
+		        // LOCAL STATE TO MANAGE FORM FIELDS
 		        this.setState({
                     content: '',
                     id: ''
@@ -114,7 +106,7 @@
                     <ul>
                         { todos.map( todo => (
                             <li key={ todo.id }>
-                                id: { todo.id } -> { todo.content }
+                                { todo.content }
                             </li>
                         ))}
                     </ul>
@@ -127,6 +119,15 @@
                 todos: state.todos
             })
         )(TodoList);
+
+        const App = props => {
+            return(
+                <div>
+                    <TodoItemConnected />
+                    <TodoListConnected />
+                </div>
+            )
+        };
 
 		// WRAP APP WITHIN REDUX STORE
         ReactDOM.render(
