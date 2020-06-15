@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Observe Exercise</title>
+</head>
+<style>
+	.row {
+		height: 100vh;
+		background: yellow;  
+		position: relative;
+	}
+	
+	/* using position absolute and translate
+	 */
+	.block {
+		width: 100%;
+		margin: 0;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	
+	/* using list instead of divs to better handle the inline display 
+	 */
+	ul {
+		list-style: none;
+		text-align: center;
+	}
+
+	li {
+		display: inline;
+		margin: 0 1em;
+	}
+
+	.shape {
+		padding: 10%;
+		color: white;
+		text-transform: capitalize;
+	}
+
+	.circle {
+		border-radius: 100%;
+	}
+
+	.round {
+		border-radius: 5%;
+	}
+
+	.border {
+		border: solid .5em black;
+	}
+
+	.blue {
+		background: blue;
+	}
+
+	.red {
+		background: red;
+	}
+
+	.green {
+		background: green;
+	}
+
+</style>
+<script>
+	function annagram (str_a, str_b) {
+		if (str_a.split("").sort().join() === str_b.split("").sort().join()){
+			return true;
+		}
+		return false;
+	}
+
+	function create_counter_obj (str) {
+		counter = {};
+		for (i in str) {
+			if (counter[str[i]]) {
+				counter[str[i]] ++;
+			} else {
+				counter[str[i]] = 1;
+			}
+		}
+		return counter;
+	}
+
+	function annagram_fast (str_a, str_b) {
+		const counter_a = create_counter_obj(str_a);
+		const counter_b = create_counter_obj(str_b);
+
+		/*  also compare the objects key count to 
+			handle exceptions due to using counter_a
+			as a loop stop point below
+		 */
+		const size_a = Object.keys(counter_a).length;
+		const size_b = Object.keys(counter_b).length;
+
+		if (size_a === size_b) {
+			for (i in counter_a) {
+				if (counter_a[i] !== counter_b[i]) {
+					return false
+				}
+			}
+
+			return true
+		} else {
+			return false
+		}
+	}
+
+	console.log(annagram("avocado", "cadoavo"))
+	console.log(annagram_fast("avocado", "cadoavo"))
+
+</script>
+<body>
+	<div class="row">
+		<div class="block">
+			<ul>
+				<li class="shape blue circle">one</li>
+				<li class="shape red square round">two</li>
+				<li class="shape green square border">three</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
