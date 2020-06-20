@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #1d2126;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Food List</h1>
+    <ul class="foods"></ul>
+  </body>
+  <script>
+  
+    const rootElement = document.querySelector('.foods');
+
+    const foodData = [
+      {
+        id: 1,
+        image: 'emoji',
+        name: 'lasagna'
+      }, {
+        id: 2,
+        image: 'emoji',
+        name: 'tortelini'
+      }, {
+        id: 3,
+        image: 'emoji',
+        name: 'fetuccini'
+      }, {
+        id: 4,
+        image: 'emoji',
+        name: 'pizza'
+      }
+    ];
+
+
+    class Foods {
+      constructor(element, data) {
+        this.root = element,
+        this.data = data
+      }
+      
+      createLi(item) {
+        var li = document.createElement('li');        
+        li.className = item.id;
+        li.innerHTML = item.name;
+        return li;
+      }
+
+      render() {
+        this.data.map(item => this.root.appendChild(this.createLi(item)));
+        this.root.addEventListener('click', event => event.target.remove());
+      }
+    }
+
+    const italianFood = new Foods(rootElement, foodData);
+    italianFood.render();
+
+  </script>
+</html>
+
+

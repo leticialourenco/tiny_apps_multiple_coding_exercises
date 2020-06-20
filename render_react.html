@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>Tiny Apps - Food List</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <h1>Food List</h1>
+    <div id="root"></div>
+    <script type="text/jsx">
+
+        const ListItem = props => {
+          const { item, remove } = props;
+          return(
+            <li 
+              id={ item.id }
+              onClick={ remove }
+            >
+              { item.name }
+            </li>
+          );
+        }
+        
+        const App = props => {
+            const { useState } = React;
+            const [listItems ,setListItems] = useState([
+              {
+                id: 1,
+                image: 'emoji',
+                name: 'lasagna'
+              }, {
+                id: 2,
+                image: 'emoji',
+                name: 'tortelini'
+              }, {
+                id: 3,
+                image: 'emoji',
+                name: 'fetuccini'
+              }, {
+                id: 4,
+                image: 'emoji',
+                name: 'pizza'
+              }
+            ]);
+          
+            const handleDelete = event => {
+              const newList = listItems.filter(item => { event.target.id != item.id });
+              setListItems(newList);
+            }
+          
+            return(
+                <div>
+                  <ul className="foods">
+                    { listItems.map(item => <ListItem key={ item.id } item={ item } remove={ handleDelete }/>) }
+                  </ul>
+                </div>
+            );
+        }
+        
+        ReactDOM.render(
+          <App />,
+          document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
